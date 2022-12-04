@@ -17,7 +17,7 @@ fun main() {
         val r1 = IntRange(eAd, eAf)
         val r2 = IntRange(eBd, eBf)
 
-        if (r1.intersect(r2).isNotEmpty() || r2.intersect(r1).isNotEmpty())
+        if (r1.intersect(r2).isNotEmpty())
             rep++
     }
 
