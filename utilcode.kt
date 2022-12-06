@@ -20,7 +20,7 @@ private fun readMutableMap() = readLn().groupingBy { it }.eachCount().toMutableM
 fun readInput(name: String) = File("src", "$name.txt").readLines()
 
 class MutableStack<E>(vararg items: E) {
-    val elements = items.toMutableList()
+    private val elements = items.toMutableList()
     fun push(element: E) = elements.add(element)
     fun peek(): E = elements.last()
     fun pop(): E = elements.removeAt(elements.size - 1)
