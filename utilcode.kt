@@ -29,6 +29,9 @@ class MutableStack<E>(vararg items: E) {
     override fun toString() = elements.joinToString(" ")
 }
 
+data class Directory (val nomDir: Int, var parent: Int, var tailleDir:Long)
+
+data class ContenuLigne(val ID:Int, val rangeCol:IntRange, val posBeacon:Pair<Int, Int>)
 
 
 // Ctrl + Space -> code completion
