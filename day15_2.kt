@@ -10,9 +10,16 @@ fun main() {
     //var maxCoor = 20
 
     val inLines = readInput("input15_1")
-    var maxCoor = 4000000
+    var maxCoor = 400
 
     var multiPara = 4000000L
+
+    fun printResult(sP:MutableSet<Pair<Int, Int>>) {
+        var beacon = sP.first()
+        var result:Long = (beacon.second * multiPara) + beacon.first
+        println(result)
+        return
+    }
 
     inLines.forEach {
         var regex = "^Sensor at x=(-?\\d+), y=(-?\\d+): closest beacon is at x=(-?\\d+), y=(-?\\d+)".toRegex()
@@ -54,31 +61,40 @@ fun main() {
     }
 
     var setPos = mutableSetOf<Pair<Int, Int>>()
-    lstDatas.forEach {
-        if (it.ID > -1 && it.ID <= maxCoor) {
-            val range = it.rangeCol
-            for (elem in range) {
-                if (elem > -1 && elem <= maxCoor)
-                    setPos.add(Pair(it.ID, elem))
+    var tabCoor = IntArray(maxCoor+1) { 0 }
+
+    // after first input
+    val startTime = System.currentTimeMillis()
+
+    for (i in 0 .. maxCoor) {
+        var lstLignesID = lstDatas.filter { it.ID == i }
+        if (lstLignesID.size > 0) {
+
+            var tabCoor = IntArray(maxCoor+1) { 0 }
+
+            lstLignesID.forEach { it2 ->
+                val range = it2.rangeCol
+                range.forEach { itR ->
+                    if (itR > -1 && itR <= maxCoor)
+                    tabCoor[itR] = 1
+                }
+            }
+
+            if (tabCoor.contains(0)) {
+                var j = tabCoor.indexOf(0)
+                setPos.add(Pair(i, j))
+                printResult(setPos)
+                return
             }
         }
-    }
 
-    lstDatas.clear()
-
-    var beacon: Pair<Int, Int>
-    beacon = Pair(-1, -1)
-    for (i in 0..maxCoor) {
-        for (j in 0 .. maxCoor) {
-            val p = Pair(i, j)
-            if (!setPos.contains(p)) {
-                println("ligne ${p.first} - col. ${p.second}")
-                beacon = Pair(p.first, p.second)
-            }
+        if (i % 100 == 0) {
+            println("Ligne $i")
+            val endTime = System.currentTimeMillis()
+            val processTime = endTime - startTime
+            println("Completed in $processTime ms")
         }
     }
-
-    var result:Long = (beacon.second * multiPara) + beacon.first
-    println(result)
 }
+
 
