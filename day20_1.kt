@@ -36,9 +36,6 @@ fun main() {
         if (dir == "A") {
             pos = posOrg + nM
 
-            if (pos == max + 1)
-                return
-
             if (pos > max) {
                 pos -= max
             }
